@@ -1,0 +1,23 @@
+{
+  "name": "bot-whatsapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "tunnel": "ngrok http 3000",
+    "start-all": "npm run dev && npm run tunnel"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "ngrok": "^5.0.0-beta.2",
+    "nodemon": "^3.1.11"
+  }
+}
