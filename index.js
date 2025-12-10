@@ -25,9 +25,22 @@ app.get("/message", async (req, res) => {
 		}
 	});
 
-	if (response.status === 200) return (res.sendStatus(200));
+	if (response.status === 200) return (console.log(response.data), res.sendStatus(200));
 	console.log(response.status, "\n\n", response.data);
 	res.status(response.status).send(response.data);
+});
+
+app.get("/webhook", (req, res) => {
+	console.log("GET consultado")
+	return res.status(200).send(req.query["hub.challenge"]);
+});
+
+app.post("/webhook", (req, res) => {
+	// console.log("POST consultado: ", req.body.entry[0].changes[0].value.metadata)
+	// console.log("POST consultado: ", req.body.entry[0].changes[0].value.contacts)
+	console.log("POST consultado: ", req.body.entry[0].changes[0].value.messages[0].text.body)
+	res.sendStatus(200);
+	// console.log("ainda roda codigo")
 });
 
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
