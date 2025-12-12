@@ -23,7 +23,5 @@ export default async function sendMessage(number, message) {
 		}
 	});
 
-	// if (res.status === 200) console.log("mensagem enviada");
-	// if (res.status !== 200) console.log(res.status, "\n\n", res.data);
 	return (res);
 }
