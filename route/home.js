@@ -9,5 +9,5 @@ import path from "path";
  * @returns 200 - PAGINA HTML ENVIADA COM SUCESSO
 */
 export default async function home(req, res) {
-    res.status(200).send(await readFile(path.join(process.cwd(), "page", "home.html"), "utf8"));
+	res.status(200).send(await readFile(path.join(process.cwd(), "page", "home.html"), "utf8"));
 }

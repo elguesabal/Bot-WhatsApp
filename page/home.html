@@ -33,7 +33,7 @@
 			const res = await axios({
 				validateStatus: () => true,
 				method: "POST",
-				url: "https://gung-twineable-cole.ngrok-free.dev/message",
+				url: window.location.origin + "/message",
 				data: {
 					password: password,
 					number: number,
