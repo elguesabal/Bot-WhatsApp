@@ -1,4 +1,5 @@
 import { readFile } from "fs/promises";
+import path from "path";
 
 /**
  * @author VAMPETA
@@ -8,5 +9,5 @@ import { readFile } from "fs/promises";
  * @returns 200 - PAGINA HTML ENVIADA COM SUCESSO
 */
 export default async function home(req, res) {
-    res.status(200).send(await readFile("./page/home.html", "utf8"));
+    res.status(200).send(await readFile(path.join(process.cwd(), "page", "home.html"), "utf8"));
 }
