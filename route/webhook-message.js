@@ -39,7 +39,7 @@ function getInfo(body) {
  * @returns 200 - MENSAGEM RECEBIDA COM SUCESSO
 */
 export default async function webhookMessage(req, res) {
-	res.sendStatus(200);
+	// res.sendStatus(200);
 	if (verification(req.body) === "error") {
 		// sendMessage();
 		return ;
@@ -53,4 +53,5 @@ export default async function webhookMessage(req, res) {
 	if (info.number === process.env.MAYTTE) return (await sendMessage(info.number, "Oi amor da minha vida"));
 	if (info.number === process.env.NATAN) return (await sendMessage(info.number, "Koe Natan, e o aplicavo? nada ainda?"));
 	await sendMessage(info.number, "Mensagem recebida");
+	res.sendStatus(200);	// COLOCANDO A RESPOSTA NO FIM PARA VER SE FUNCIONA NO VERCEL
 }

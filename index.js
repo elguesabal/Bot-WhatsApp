@@ -16,14 +16,6 @@ dotenv.config({ quiet: true });
 app.get("/webhook", webhookAuth);
 app.post("/webhook", webhookMessage);
 app.post("/message", message);
-
-// app.get("/home", (req, res) => {
-// 	res.status(200).send("<h1>titulo</h1><p>paragrafo</p>");
-// });
 app.get("/home", home);
-
-app.get("teste", (req, res) => {
-	res.sendStatus(200);
-});
 
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
