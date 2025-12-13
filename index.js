@@ -17,5 +17,6 @@ app.get("/webhook", webhookAuth);
 app.post("/webhook", webhookMessage);
 app.post("/message", message);
 app.get("/home", home);
+app.get("/cancel", webhookAuth);
 
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
