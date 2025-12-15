@@ -2,21 +2,31 @@ import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 
+import verifySignature from "./middleware/verify-signature.js";
+import response from "./middleware/response.js";
+
 import webhookAuth from "./route/webhook-auth.js";
 import webhookMessage from "./route/webhook-message.js";
 import message from "./route/message.js";
 import home from "./route/home.js";
 
 const app = express();
-app.use(express.json());
+// app.use(express.json());
+app.use(
+	express.json({
+		verify: (req, res, buf) => {
+			req.rawBody = buf;
+		}
+	})
+);
 
 axios.defaults.validateStatus = () => true;
 dotenv.config({ quiet: true });
 
 app.get("/webhook", webhookAuth);
-app.post("/webhook", webhookMessage);
+app.get("/cancel", webhookAuth);
+app.post("/webhook", verifySignature, response, webhookMessage);
 app.post("/message", message);
 app.get("/home", home);
-app.get("/cancel", webhookAuth);
 
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));

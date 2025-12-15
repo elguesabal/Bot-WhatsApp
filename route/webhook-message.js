@@ -18,7 +18,7 @@ function verification(body) {
  * @param body CONTEUDO RECEBIDO NO CORPO DA REQUISICAO
 */
 function getInfo(body) {
-	console.dir(body, { depth: null });
+	// console.dir(body, { depth: null });
 	const info = {
 		id: body.entry[0].changes[0].value.messages[0].id,
 		number: body.entry[0].changes[0].value.messages[0].from,
@@ -39,19 +39,21 @@ function getInfo(body) {
  * @returns 200 - MENSAGEM RECEBIDA COM SUCESSO
 */
 export default async function webhookMessage(req, res) {
-	// res.sendStatus(200);
-	if (verification(req.body) === "error") {
+	// console.log(req.headers)
+	// if (verification(req.body) === "error") {
+		// console.dir(req.body, { depth: null });
 		// sendMessage();
-		return ;
-	}
+		// return ;
+	// }
 	const info = getInfo(req.body);
 
 	// console.log(info);
 	// getInfo(req.body);
 	// console.log(((await sendMessage(info.number, "mnesagem recebida")).status === 200) ? "Mensagem respondida" : "Error");
-	if (info.number === process.env.MY_NUMBER) return (await sendMessage(info.number, "Vai fazendo o monumento de angulacao de 90°"));
-	if (info.number === process.env.MAYTTE) return (await sendMessage(info.number, "Oi amor da minha vida"));
-	if (info.number === process.env.NATAN) return (await sendMessage(info.number, "Koe Natan, e o aplicavo? nada ainda?"));
+	// if (info.number === process.env.MY_NUMBER) return (await sendMessage(info.number, "Vai fazendo o monumento de angulacao de 90°"));
+	// if (info.number === process.env.MAYTTE) return (await sendMessage(info.number, "Oi amor da minha vida"));
+	// if (info.number === process.env.NATAN) return (await sendMessage(info.number, "Koe Natan, e o aplicavo? nada ainda?"));
+	// if (info.number === process.env.RAMON) return (await sendMessage(info.number, "eae ramon manda a boa"));
 	await sendMessage(info.number, "Mensagem recebida");
-	res.sendStatus(200);	// COLOCANDO A RESPOSTA NO FIM PARA VER SE FUNCIONA NO VERCEL
+	// res.sendStatus(200);	// COLOCANDO A RESPOSTA NO FIM PARA VER SE FUNCIONA NO VERCEL
 }
