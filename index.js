@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 
 import verifySignature from "./middleware/verify-signature.js";
 import response from "./middleware/response.js";
+import verifyProductIndicator from "./middleware/verify-product-indicator.js";
+import getInfo from "./middleware/get-info.js";
 
 import webhookAuth from "./route/webhook-auth.js";
 import webhookMessage from "./route/webhook-message.js";
@@ -25,7 +27,7 @@ dotenv.config({ quiet: true });
 
 app.get("/webhook", webhookAuth);
 app.get("/cancel", webhookAuth);
-app.post("/webhook", verifySignature, response, webhookMessage);
+app.post("/webhook", verifySignature, response, verifyProductIndicator, getInfo, webhookMessage);
 app.post("/message", message);
 app.get("/home", home);
 
