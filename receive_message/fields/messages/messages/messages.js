@@ -1,0 +1,81 @@
+import axios from "axios";
+
+import sendMessage from "../../../../send_message/send-message.js";
+import sendImage from "../../../../send_message/send-image.js";
+
+/**
+ * @author VAMPETA
+ * @brief TRATA A MENSAGEM CASO ELA SEJA DO TIPO "text"
+ * @param {Object} value CAMPO value PRESENTE EM req.body.entry[n].changes[n].value
+ * @param {Object} message UM UNICO ELEMENTO DE req.body.entry[n].changes[n].value.messages[n]
+*/
+async function text(value, message) {
+	console.log("Name:", value.contacts[0]?.profile?.name);
+	console.log("Number:", message.from);
+	const date = new Date(Number(message.timestamp) * 1000);
+	const dia = date.getDate();
+	const mes = date.getMonth() + 1;
+	const ano = date.getFullYear();
+	const hora = date.getHours();
+	const minuto = date.getMinutes();
+	console.log("Data", `${hora}:${minuto} ${dia}/${mes}/${ano}`);
+	console.log("Texto:", message.text.body);
+	console.log("\n")
+
+	const res = await axios({
+		method: "GET",
+		url: "https://pokeapi.co/api/v2/pokemon/" + message.text.body
+	});
+
+	if (res.status !== 200) return (sendMessage(message.from, "Pokemon nao encontrado"));
+	const stats = Object.fromEntries(res.data.stats.map((s) => [s.stat.name, s.base_stat]));
+	// sendMessage(message.from, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
+	sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
+}
+
+/**
+ * @author VAMPETA
+ * @brief TRATA A MENSAGEM CASO ELA SEJA DO TIPO "sticker"
+ * @param {Object} value CAMPO value PRESENTE EM req.body.entry[n].changes[n].value
+ * @param {Object} message UM UNICO ELEMENTO DE req.body.entry[n].changes[n].value.messages[n]
+*/
+function sticker(value, mensagem) {
+	console.log("chegou figurinha");
+}
+
+/**
+ * @author VAMPETA
+ * @brief TRATA O CASO DE req.body.entry[n].changes[n].field === "messages" && req.body.entry[n].changes[n].value === true
+ * @param {Object} value CAMPO value PRESENTE EM req.body.entry[n].changes[n].value
+*/
+export default async function messages(value) {
+	for (const message of value.messages) {
+		switch (message.type) {
+			case ("text"):
+				await text(value, message);
+				break;
+
+			// case ("sticker"):
+			// 	console.log(value)
+			// 	sticker(value, message);
+			// 	break;
+
+			default:
+				console.log("type nao suportado:", message.type);
+				sendMessage(message.from, "No momento o meu servidor nao suporta esse tipo de mensagem");
+		}
+	}
+}
+
+// text					messages[n].text.body
+// image				messages[n].image
+// video				messages[n].video
+// audio				messages[n].audio
+// document				messages[n].document
+// sticker				messages[n].sticker
+// location				messages[n].location
+// contacts				messages[n].contacts[]
+// interactive			messages[n].interactive
+// button				messages[n].button
+// reaction				messages[n].reaction
+// ephemeral			messages[n].ephemeral

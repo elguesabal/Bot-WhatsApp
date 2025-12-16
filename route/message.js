@@ -1,4 +1,4 @@
-import sendMessage from "../functions/send-message.js";
+import sendMessage from "../send_message/send-message.js";
 
 /**
  * @author VAMPETA
