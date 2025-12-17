@@ -2,12 +2,10 @@ import axios from "axios";
 
 /**
  * @author VAMPETA
- * @brief FUNCAO CRIADA PARA ENVIAR IMAGEM
- * @param number NUMERO QUE VAI RECEBER A MENSAGEM
- * @param link URL DA IMAGEM ???
- * @param caption ???
+ * @brief FUNCAO CRIADA PARA CONFIRMAR A LEITURA DA MENSAGEM
+ * @param wamid ID DA MENSAGEM QUE VAI SER CONFIRMADA A LEITURA
 */
-export default async function sendImage(number, link, caption) {
+export default async function readMessage(wamid) {
 	const res = await axios({
 		method: "POST",
 		url: "https://graph.facebook.com/v22.0/" + process.env.IDENTIFICACAO_DO_NUMERO_DE_TELEFONE + "/messages",
@@ -16,14 +14,8 @@ export default async function sendImage(number, link, caption) {
 		},
 		data: {
 			messaging_product: "whatsapp",
-			to: number,
-			type: "image",
-			image: {
-				link: link,
-				caption: caption
-			}
+			status: "read",
+			message_id: wamid
 		}
 	});
-
-	// console.log(res.status)
 }

@@ -1,7 +1,12 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 
+import readMessage from "../../../../send_message/read-message.js";
 import sendMessage from "../../../../send_message/send-message.js";
 import sendImage from "../../../../send_message/send-image.js";
+import sendLocation from "../../../../send_message/send-location.js";
+import sendButons from "../../../../send_message/send-buttons.js";
+import sendList from "../../../../send_message/send-list.js";
+import reactMessage from "../../../../send_message/react-message.js";
 
 /**
  * @author VAMPETA
@@ -21,16 +26,21 @@ async function text(value, message) {
 	console.log("Data", `${hora}:${minuto} ${dia}/${mes}/${ano}`);
 	console.log("Texto:", message.text.body);
 	console.log("\n")
+	readMessage(message.id);
+	reactMessage(message.from, message.id, "👍");
 
-	const res = await axios({
-		method: "GET",
-		url: "https://pokeapi.co/api/v2/pokemon/" + message.text.body
-	});
+	// const res = await axios({
+	// 	method: "GET",
+	// 	url: "https://pokeapi.co/api/v2/pokemon/" + message.text.body
+	// });
 
-	if (res.status !== 200) return (sendMessage(message.from, "Pokemon nao encontrado"));
-	const stats = Object.fromEntries(res.data.stats.map((s) => [s.stat.name, s.base_stat]));
+	// if (res.status !== 200) return (sendMessage(message.from, "Pokemon nao encontrado"));
+	// const stats = Object.fromEntries(res.data.stats.map((s) => [s.stat.name, s.base_stat]));
 	// sendMessage(message.from, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
-	sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
+	// sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
+	// sendLocation(message.from);
+	// sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
+	// sendList(message.from);
 }
 
 /**
