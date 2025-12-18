@@ -7,6 +7,7 @@ import sendLocation from "../../../../send_message/send-location.js";
 import sendButons from "../../../../send_message/send-buttons.js";
 import sendList from "../../../../send_message/send-list.js";
 import reactMessage from "../../../../send_message/react-message.js";
+import responseMessage from "../../../../send_message/response-message.js";
 
 /**
  * @author VAMPETA
@@ -39,8 +40,8 @@ async function text(value, message) {
 	// sendMessage(message.from, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendLocation(message.from);
-	// sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
-	// sendList(message.from);
+	sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
+	// sendList(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
 }
 
 /**
@@ -49,8 +50,18 @@ async function text(value, message) {
  * @param {Object} value CAMPO value PRESENTE EM req.body.entry[n].changes[n].value
  * @param {Object} message UM UNICO ELEMENTO DE req.body.entry[n].changes[n].value.messages[n]
 */
-function sticker(value, mensagem) {
+function sticker(value, message) {
 	console.log("chegou figurinha");
+}
+
+/**
+ * @author VAMPETA
+ * @brief TRATA A MENSAGEM CASO ELA SEJA DO TIPO "interactive"
+ * @param {Object} value CAMPO value PRESENTE EM req.body.entry[n].changes[n].value
+ * @param {Object} message UM UNICO ELEMENTO DE req.body.entry[n].changes[n].value.messages[n]
+*/
+function interactive(value, message) {
+	responseMessage(message.id, message.from, `Opção selecionada: ${message.interactive[message.interactive.type].title}`);
 }
 
 /**
@@ -69,6 +80,10 @@ export default async function messages(value) {
 			// 	console.log(value)
 			// 	sticker(value, message);
 			// 	break;
+
+			case ("interactive"):
+				interactive(value, message);
+				break;
 
 			default:
 				console.log("type nao suportado:", message.type);

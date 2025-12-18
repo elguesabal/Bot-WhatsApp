@@ -2,6 +2,8 @@ import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 
+import connectMongoDB from "./MongoDB/connect.js";
+
 import verifySignature from "./middleware/verify-signature.js";
 import response from "./middleware/response.js";
 import verifyProductIndicator from "./middleware/verify-product-indicator.js";
@@ -22,6 +24,10 @@ app.use(
 
 axios.defaults.validateStatus = () => true;
 dotenv.config({ quiet: true });
+
+connectMongoDB();
+import teste from "./MongoDB/schema.js";
+teste();
 
 app.get("/webhook", webhookAuth);
 app.get("/cancel", webhookAuth);
