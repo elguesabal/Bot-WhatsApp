@@ -44,3 +44,53 @@ export default async function teste() {
 		console.log("tava errado:", error)
 	}
 }
+
+// const teste = new mongoose.Schema({
+// 	campo1: String,
+// 	campo2: Number
+// });
+// await mongoose.model("teste", teste).create({
+// 	campo1: "teste",
+// 	campo2: 42
+// });
+
+
+
+
+
+// const chats = new mongoose.Schema({
+// 	contactNumber: { type: String, required: true, unique: true },
+// 	contactName: String,
+// 	createdAt: { type: Date, default: Date.now },
+// 	lastMessage: String,
+// 	lastMessageAt: Date
+// });
+const chats = new mongoose.Schema({
+	phone: String,
+	name: String
+});
+
+// const messages = new mongoose.Schema({
+// 	chatId: {
+// 		type: mongoose.Schema.Types.ObjectId,
+// 		ref: "Chat",
+// 		required: true
+// 	},
+// 	from: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	text: String,
+// 	createdAt: {
+// 		type: Date,
+// 		default: Date.now
+// 	}
+// });
+const messages = new mongoose.Schema({
+	text: String
+});
+
+const Chat = mongoose.model("Chat", chats);
+const Message = mongoose.model("Message", messages);
+
+export { Chat, Message };

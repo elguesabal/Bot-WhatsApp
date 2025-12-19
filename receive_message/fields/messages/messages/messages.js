@@ -9,6 +9,8 @@ import sendList from "../../../../send_message/send-list.js";
 import reactMessage from "../../../../send_message/react-message.js";
 import responseMessage from "../../../../send_message/response-message.js";
 
+import { Chat, Message } from "../../../../MongoDB/schema.js";
+
 /**
  * @author VAMPETA
  * @brief TRATA A MENSAGEM CASO ELA SEJA DO TIPO "text"
@@ -42,6 +44,13 @@ async function text(value, message) {
 	// sendLocation(message.from);
 	sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
 	// sendList(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
+
+	// await Chat.create({
+	// 	phone: "123",
+	// 	name: "abc"
+	// });
+	// console.log(await Chat.findOne({ phone: "123" }));
+	console.log("foi")
 }
 
 /**

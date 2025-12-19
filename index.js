@@ -26,8 +26,8 @@ axios.defaults.validateStatus = () => true;
 dotenv.config({ quiet: true });
 
 connectMongoDB();
-import teste from "./MongoDB/schema.js";
-teste();
+// import teste from "./MongoDB/schema.js";
+// teste();
 
 app.get("/webhook", webhookAuth);
 app.get("/cancel", webhookAuth);
