@@ -66,8 +66,19 @@ export default async function teste() {
 // 	lastMessageAt: Date
 // });
 const chats = new mongoose.Schema({
-	phone: String,
-	name: String
+	phone: {
+		type: String,
+		required: true,
+		unique: true
+	},
+	name: {
+		type: String,
+		default: ""
+	},
+	lastMessage: {
+		text: String,
+		timesTamp: Date
+	}
 });
 
 // const messages = new mongoose.Schema({

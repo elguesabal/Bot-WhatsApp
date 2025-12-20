@@ -42,15 +42,34 @@ async function text(value, message) {
 	// sendMessage(message.from, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendLocation(message.from);
-	sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
-	// sendList(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
+	// sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
+	// sendList(message.from);		// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
 
-	// await Chat.create({
-	// 	phone: "123",
-	// 	name: "abc"
-	// });
-	// console.log(await Chat.findOne({ phone: "123" }));
-	console.log("foi")
+	if (!(await Chat.findOne({ phone: message.from }))) {		// PAREI AKI
+		await Chat.create({
+			phone: message.from,
+			name: undefined,
+			lastMessage: {
+				text: message.text.body,
+				timesTamp: new Date()
+			}
+		});
+		console.log("criado")
+	} else {
+		// console.log(await Chat.findOne({ phone: message.from }))
+		await Chat.updateOne(
+			{
+				phone: message.from
+			},
+			{
+				lastMessage: {
+					text: message.text.body,
+					timesTamp: new Date()
+				}
+			}
+		);
+		console.log("atualizado")
+	}
 }
 
 /**
