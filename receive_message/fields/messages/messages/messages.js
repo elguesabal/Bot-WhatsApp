@@ -45,7 +45,7 @@ async function text(value, message) {
 	// sendButons(message.from);	// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
 	// sendList(message.from);		// AINDA NAO CONFIGUREI PARA INTERPRETAR A RESPOSTA DESSE TIPO DE MENSAGEM
 
-	if (!(await Chat.findOne({ phone: message.from }))) {		// PAREI AKI
+	if (!(await Chat.findOne({ phone: message.from }))) {
 		await Chat.create({
 			phone: message.from,
 			name: undefined,
@@ -68,6 +68,15 @@ async function text(value, message) {
 				}
 			}
 		);
+		await Message.create({
+			phone: message.from,
+			// iDMessage: {
+			// 	type: Number,
+			// 	require: true
+			// },
+			wamid: message.id,
+			text: message.text.body
+		});
 		console.log("atualizado")
 	}
 }

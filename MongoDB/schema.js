@@ -98,7 +98,23 @@ const chats = new mongoose.Schema({
 // 	}
 // });
 const messages = new mongoose.Schema({
-	text: String
+	phone: {
+		type: String,
+		required: true
+	},
+	// iDMessage: {
+	// 	type: Number,
+	// 	require: true
+	// },
+	wamid: {
+		type: String,
+		require: true,
+		unique: true
+	},
+	text: {
+		type: String,
+		default: ""
+	}
 });
 
 const Chat = mongoose.model("Chat", chats);
