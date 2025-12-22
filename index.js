@@ -24,15 +24,29 @@ app.use(
 
 axios.defaults.validateStatus = () => true;
 dotenv.config({ quiet: true });
-
 connectMongoDB();
-// import teste from "./MongoDB/schema.js";
-// teste();
 
 app.get("/webhook", webhookAuth);
 app.get("/cancel", webhookAuth);
 app.post("/webhook", verifySignature, response, verifyProductIndicator, webhookMessage);
 app.post("/message", message);
 app.get("/home", home);
+
+import { Message } from "./MongoDB/schema.js";
+app.get("/chat", async (req, res) => {
+	const { phone } = req.query;
+
+	if (!phone) return (res.sendStatus(400));
+	const chat = await Message.find({ phone: phone });
+	if (!chat) return (res.sendStatus(404));
+	console.log(chat)
+	// let messages = [];
+	let messages = "";
+	for (const message of chat) {
+		// messages.push(message.text);
+		messages += `<p style="width:100%; margin:0; text-align:${(message.direction === "inbound") ? "left" : "right"};">${message.text}</p>`;
+	}
+	res.status(200).send(messages);
+});
 
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));

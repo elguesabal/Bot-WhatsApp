@@ -29,21 +29,21 @@ const newContact = new mongoose.Schema({
 });
 
 // mongoose.model("contacts", newContact);
-export default async function teste() {
-	try {
-		await mongoose.model("5521000000000", newContact).create({ // CRIAR USANDO NUMERO DE TELEFONE SERIA CERTO?
-			phone: "5521000000000",
-			name: "José",
-			chat: [
-				"oi",
-				"eae"
-			]
-		});
-		console.log("tava certo")
-	} catch (error) {
-		console.log("tava errado:", error)
-	}
-}
+// export default async function teste() {
+// 	try {
+// 		await mongoose.model("5521000000000", newContact).create({ // CRIAR USANDO NUMERO DE TELEFONE SERIA CERTO?
+// 			phone: "5521000000000",
+// 			name: "José",
+// 			chat: [
+// 				"oi",
+// 				"eae"
+// 			]
+// 		});
+// 		console.log("tava certo")
+// 	} catch (error) {
+// 		console.log("tava errado:", error)
+// 	}
+// }
 
 // const teste = new mongoose.Schema({
 // 	campo1: String,
@@ -111,9 +111,17 @@ const messages = new mongoose.Schema({
 		require: true,
 		unique: true
 	},
+	type: {
+		type: String,
+		require: true
+	},
 	text: {
 		type: String,
-		default: ""
+		default: undefined
+	},
+	direction: {
+		type: String,
+		require: true
 	}
 });
 

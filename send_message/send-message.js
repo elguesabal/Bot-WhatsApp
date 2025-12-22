@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Chat, Message } from "../MongoDB/schema.js";
 
 /**
  * @author VAMPETA
@@ -22,6 +23,46 @@ export default async function sendMessage(number, message) {
 			}
 		}
 	});
+
+
+
+	if (!(await Chat.findOne({ phone: number }))) {
+		await Chat.create({
+			phone: number,
+			name: undefined,
+			lastMessage: {
+				text: message,
+				timesTamp: new Date()
+			}
+		});
+		console.log("criado")
+	} else {
+		await Chat.updateOne(
+			{
+				phone: number
+			},
+			{
+				lastMessage: {
+					text: message,
+					timesTamp: new Date()
+				}
+			}
+		);
+		await Message.create({
+			phone: number,
+			// iDMessage: {
+			// 	type: Number,
+			// 	require: true
+			// },
+			wamid: res.id,
+			type: "text",
+			text: message,
+			direction: "outbound"
+		});
+		console.log("atualizado")
+	}
+
+
 
 	return (res);
 }

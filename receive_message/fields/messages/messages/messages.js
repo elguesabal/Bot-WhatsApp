@@ -75,7 +75,9 @@ async function text(value, message) {
 			// 	require: true
 			// },
 			wamid: message.id,
-			text: message.text.body
+			type: "text",
+			text: message.text.body,
+			direction: "inbound"
 		});
 		console.log("atualizado")
 	}
