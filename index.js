@@ -49,4 +49,14 @@ app.get("/chat", async (req, res) => {
 	res.status(200).send(messages);
 });
 
+app.get("/contacts", async (req, res) => {
+	res.status(200).send([
+		{
+			photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
+			phone: "+00 (00) 00000-0000",
+			lastMessage: "Last message..."
+		}
+	]);
+});
+
 app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
