@@ -1,6 +1,6 @@
-import express from "express";
-import axios from "axios";
-import dotenv from "dotenv";
+import app from "./configs/express.js";
+import config_axios from "./configs/axios.js";
+import config_dotenv from "./configs/dotenv.js";
 
 import connectMongoDB from "./MongoDB/connect.js";
 
@@ -13,17 +13,8 @@ import webhookMessage from "./route/webhook-message.js";
 import message from "./route/message.js";
 import home from "./route/home.js";
 
-const app = express();
-app.use(
-	express.json({
-		verify: (req, res, buf) => {
-			req.rawBody = buf;
-		}
-	})
-);
-
-axios.defaults.validateStatus = () => true;
-dotenv.config({ quiet: true });
+config_axios();
+config_dotenv();
 connectMongoDB();
 
 app.get("/webhook", webhookAuth);
@@ -50,13 +41,56 @@ app.get("/chat", async (req, res) => {
 });
 
 app.get("/contacts", async (req, res) => {
-	res.status(200).send([
-		{
-			photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
-			phone: "+00 (00) 00000-0000",
-			lastMessage: "Last message..."
-		}
-	]);
+	res.status(200).send(Array(15).fill({
+		photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
+		phone: "+00 (00) 00000-0000",
+		lastMessage: "Last message..."
+	}));
 });
 
-app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
+// app.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
+
+
+
+import http from "http";
+import { Server } from "socket.io";
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+	cors: {
+		origin: "*",
+		methods: ["GET", "POST"]
+	}
+});
+
+io.on("connection", (socket) => {
+	// console.log("Cliente conectado:", socket.id);
+
+	// socket.on("message", (data) => {
+	// 	io.emit("message", data);
+	// });
+
+	socket.on("contacts", (payload, callback) => {
+		callback({
+			ok: true,
+			data: Array(15).fill({
+				photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
+				phone: "+00 (00) 00000-0000",
+				lastMessage: "Last message..."
+			})
+		});
+	});
+
+	setInterval(() => {
+		socket.emit("teste", {
+			message: "testandoooo"
+		});
+	}, 5000);
+
+	socket.on("disconnect", () => {
+		// console.log("Cliente desconectado:", socket.id);
+	});
+});
+
+server.listen(process.env.PORT || 3000, () => console.log("Servidor rodando"));
