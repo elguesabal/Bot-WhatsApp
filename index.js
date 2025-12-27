@@ -23,7 +23,7 @@ app.post("/webhook", verifySignature, response, verifyProductIndicator, webhookM
 app.post("/message", message);
 app.get("/home", home);
 
-import { Message } from "./MongoDB/schema.js";
+import { Chat, Message } from "./MongoDB/schema.js";
 app.get("/chat", async (req, res) => {
 	const { phone } = req.query;
 
@@ -71,14 +71,21 @@ io.on("connection", (socket) => {
 	// 	io.emit("message", data);
 	// });
 
-	socket.on("contacts", (payload, callback) => {
+	socket.on("contacts", async (payload, callback) => {
+		// callback({
+		// 	ok: true,
+		// 	data: Array(15).fill({
+		// 		photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
+		// 		phone: "+00 (00) 00000-0000",
+		// 		lastMessage: "Last message..."
+		// 	})
+		// });
+
+		const chats = await Chat.find({});
+		console.log(chats);
 		callback({
 			ok: true,
-			data: Array(15).fill({
-				photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT548e7yKxVzd9AoGwcjuciTV94wTtuZPzyC_-kWy3r&s",
-				phone: "+00 (00) 00000-0000",
-				lastMessage: "Last message..."
-			})
+			data: chats
 		});
 	});
 

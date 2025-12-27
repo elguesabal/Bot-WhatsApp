@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 import readMessage from "../../../../send_message/read-message.js";
 import sendMessage from "../../../../send_message/send-message.js";
@@ -10,6 +10,17 @@ import reactMessage from "../../../../send_message/react-message.js";
 import responseMessage from "../../../../send_message/response-message.js";
 
 import { Chat, Message } from "../../../../MongoDB/schema.js";
+
+async function pokeApi(message) {	// CONSULTA A POKEAPI E ENVIA A IMAGEM E STATS DO POKEMON
+	const res = await axios({
+		method: "GET",
+		url: "https://pokeapi.co/api/v2/pokemon/" + message.text.body
+	});
+
+	if (res.status !== 200) return (sendMessage(message.from, "Pokemon nao encontrado"));
+	const stats = Object.fromEntries(res.data.stats.map((s) => [s.stat.name, s.base_stat]));
+	sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
+}
 
 /**
  * @author VAMPETA
@@ -32,13 +43,7 @@ async function text(value, message) {
 	readMessage(message.id);
 	reactMessage(message.from, message.id, "👍");
 
-	// const res = await axios({
-	// 	method: "GET",
-	// 	url: "https://pokeapi.co/api/v2/pokemon/" + message.text.body
-	// });
-
-	// if (res.status !== 200) return (sendMessage(message.from, "Pokemon nao encontrado"));
-	// const stats = Object.fromEntries(res.data.stats.map((s) => [s.stat.name, s.base_stat]));
+	// await pokeApi(message);
 	// sendMessage(message.from, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendImage(message.from, res.data.sprites.front_default, `Nome: ${res.data.name}\nHp: ${stats.hp}\nAttck: ${stats.attack}\nDefense: ${stats.defense}\nSpeed: ${stats.speed}`);
 	// sendLocation(message.from);
@@ -54,32 +59,58 @@ async function text(value, message) {
 				timesTamp: new Date()
 			}
 		});
-		console.log("criado")
+console.log("criado")
 	} else {
-		// console.log(await Chat.findOne({ phone: message.from }))
 		await Chat.updateOne(
 			{
 				phone: message.from
 			},
 			{
-				lastMessage: {
-					text: message.text.body,
-					timesTamp: new Date()
+				$set: {
+					lastMessage: {
+						text: message.text.body,
+						timesTamp: new Date()
+					}
+				}
+			}
+		);
+console.log("atualizado")
+	}
+
+	await Message.create({
+		phone: message.from,
+		wamid: message.id,
+		type: "text",
+		text: message.text.body,
+		direction: "inbound",
+		timesTamp: new Date()
+	});
+
+	const wamid = await sendMessage(message.from, "Mensagem recebida com sucesso!");
+	if (wamid) {
+		await Chat.updateOne(
+			{
+				phone: message.from
+			},
+			{
+				$set: {
+					lastMessage: {
+						text: "Mensagem recebida com sucesso!",
+						timesTamp: new Date(),
+						status: "sent"
+					}
 				}
 			}
 		);
 		await Message.create({
 			phone: message.from,
-			// iDMessage: {
-			// 	type: Number,
-			// 	require: true
-			// },
-			wamid: message.id,
+			wamid: wamid,
+			direction: "outbound",
+			timesTamp: new Date(),
+			status: "sent",
 			type: "text",
-			text: message.text.body,
-			direction: "inbound"
+			text: "Mensagem recebida com sucesso!"
 		});
-		console.log("atualizado")
 	}
 }
 
