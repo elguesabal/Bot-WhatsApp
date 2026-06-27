@@ -37,11 +37,11 @@ export async function removeWaitingService(socket, data, callback) {
 	try {
 		if (data == null || typeof data !== "object" || Array.isArray(data)) return (callback({ code: 400, error: "O payload deve ser um objeto" }));
 		if (!phone || typeof phone !== "string") return (callback({ code: 400, error: 'O campo "phone" deve ser do tipo string e não deve estar vazio' }));
-		await mongodb.removeHumanService(idPhone, phone);
+		const res = await mongodb.removeHumanService(idPhone, phone);
 
-		callback({
-			code: 204
-		});
+		if (res === "NOT_FOUND") return (callback({ code: 404, error: "'phone' não corresponde a busca" }));
+		if (res === "UPDATED" || res === "ALREADY_UPDATED") return (callback({ code: 204 }));
+		callback({ code: 500, error: "Erro interno do servidor" });
 	} catch (error) {
 		await mongodb.saveError(idPhone, `Error no metodo "removeWaitingService": ${error}`);
 		callback({ code: 500, error: "Erro interno do servidor" });

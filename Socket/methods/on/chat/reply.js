@@ -15,6 +15,7 @@ export async function replyWindow(socket, data, callback) {
 		if (data == null || typeof data !== "object" || Array.isArray(data)) return (callback({ code: 400, error: "O payload deve ser um objeto" }));
 		if (!phone || typeof phone !== "string") return (callback({ code: 400, error: 'O campo "phone" deve ser do tipo string e não deve estar vazio' }));
 		const message = await mongodb.Message.findOne({ idPhone: idPhone, phone: phone, direction: "inbound" }).sort({ _id: -1 }).select("timestamp -_id").lean();
+		if (!message) return (callback({ code: 404, error: "'phone' não corresponde a busca" }));
 		const lastDate = new Date(message?.timestamp);
 		const expirationDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
 

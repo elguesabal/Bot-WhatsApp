@@ -40,8 +40,9 @@ export async function saveComment(socket, data, callback) {
 		if (typeof comment !== "string") return (callback({ code: 400, error: 'O campo "comment" deve ser do tipo string' }));
 		const res = await mongodb.saveComment(idPhone, phone, comment);
 
-		if (res.matchedCount !== 1) callback({ code: 404, error: "'phone' não corresponde a busca" });
-		callback({ code: 204 });
+		if (res === "NOT_FOUND") return (callback({ code: 404, error: "'phone' não corresponde a busca" }));
+		if (res === "UPDATED" || res === "ALREADY_UPDATED") return (callback({ code: 204 }));
+		callback({ code: 500, error: "Erro interno do servidor" });
 	} catch (error) {
 		await mongodb.saveError(idPhone, `Error no metodo "saveCommet": ${error}`);
 		callback({ code: 500, error: "Erro interno do servidor" });

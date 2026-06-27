@@ -7,7 +7,7 @@
 */
 export async function saveComment(idPhone, contact, text) {
 	try {
-		return (await this.Contact.updateOne(
+		const res = await this.Contact.updateOne(
 			{
 				idPhone: idPhone,
 				phone: contact
@@ -15,9 +15,13 @@ export async function saveComment(idPhone, contact, text) {
 			{
 				comment: text
 			}
-		));
+		);
+
+		if (res.matchedCount === 0) return ("NOT_FOUND");
+		if (res.modifiedCount === 0) return ("ALREADY_UPDATED");
+		return ("UPDATED");
 	} catch (error) {
 		await this.saveError(idPhone, `Error no metodo "saveComment": ${error}`);
-		return ({});
+		return ("ERROR");
 	}
 }

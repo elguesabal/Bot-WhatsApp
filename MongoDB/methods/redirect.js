@@ -194,7 +194,7 @@ export async function saveHumanService(idPhone, phone) {
 */
 export async function removeHumanService(idPhone, phone) {
 	try {
-		await this.Contact.updateOne(
+		const res = await this.Contact.updateOne(
 			{
 				idPhone: idPhone,
 				phone: phone
@@ -206,7 +206,12 @@ export async function removeHumanService(idPhone, phone) {
 				}
 			}
 		);
+
+		if (res.matchedCount === 0) return ("NOT_FOUND");
+		if (res.modifiedCount === 0) return ("ALREADY_UPDATED");
+		return ("UPDATED");
 	} catch (error) {
 		await this.saveError(idPhone, `Error no metodo "removeHumanService": ${error}`);
+		return ("ERROR");
 	}
 }
