@@ -38,7 +38,7 @@ export async function getSpreadsheets(socket, data, callback) {
  * @param {Object} data DADOS ENVIADO PELO CLIENTE
  * @param {Object} callback FUNCAO DE RESPOSTA
 */
-export async function updateUsedSpreadsheets(socket, data, callback) {
+export async function updateUsedSpreadsheets(socket, data, callback) {			// E SE VIER COM PLANILHA INEXISTENTE NO PAYLOAD??
 	const { idPhone } = socket.account;
 	const { spreadsheets } = data || {};
 

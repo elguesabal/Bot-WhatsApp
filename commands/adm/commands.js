@@ -3,8 +3,8 @@ import mongodb from "../../MongoDB/Mongodb.js";
 
 import { help } from "./help.js";
 import { adm, add_adm, remove_adm } from "./adm.js";
-import { message_not_supported, new_message_not_supported, remove_message_not_supported } from "./message_not_supported.js";
-import { prompt, new_prompt } from "./prompt.js";
+// import { message_not_supported, new_message_not_supported, remove_message_not_supported } from "./message_not_supported.js";
+// import { prompt, new_prompt } from "./prompt.js";
 import { spreadsheets, available_spreadsheets, view_spreadsheet, add_spreadsheets, remove_spreadsheets } from "./spreadsheets.js";
 import { redirect, add_redirect, remove_redirect } from "./redirect.js";
 import { contact } from "./contact.js";
@@ -37,25 +37,25 @@ export default async function commandsAdm(account, message) {
 				await remove_adm(account, message);
 				break;
 
-			case "/mensagem_não_suportada":
-				await message_not_supported(account, message);
-				break;
+			// case "/mensagem_não_suportada":
+			// 	await message_not_supported(account, message);
+			// 	break;
 
-			case "/nova_mensagem_não_suportada":
-				await new_message_not_supported(account, message);
-				break;
+			// case "/nova_mensagem_não_suportada":
+			// 	await new_message_not_supported(account, message);
+			// 	break;
 
-			case "/remover_mensagem_não_suportada":
-				await remove_message_not_supported(account, message);
-				break;
+			// case "/remover_mensagem_não_suportada":
+			// 	await remove_message_not_supported(account, message);
+			// 	break;
 
-			case "/prompt":
-				await prompt(account, message);
-				break;
+			// case "/prompt":
+			// 	await prompt(account, message);
+			// 	break;
 
-			case "/novo_prompt":
-				await new_prompt(account, message);
-				break;
+			// case "/novo_prompt":
+			// 	await new_prompt(account, message);
+			// 	break;
 
 			case "/planilhas":
 				await spreadsheets(account, message);

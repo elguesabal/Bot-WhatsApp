@@ -56,8 +56,8 @@ export default class Mongodb {
 		this.removeSpreadsheets = removeSpreadsheets.bind(this);
 		this.newSpreadsheets = newSpreadsheets.bind(this);
 		this.saveLocation = saveLocation.bind(this);
-		this.saveRedirect = saveRedirect.bind(this);
-		this.removeRedirect = removeRedirect.bind(this);
+		// this.saveRedirect = saveRedirect.bind(this);
+		// this.removeRedirect = removeRedirect.bind(this);
 		this.newRedirect = newRedirect.bind(this);
 		this.saveMessageRedirect = saveMessageRedirect.bind(this);
 		this.saveHumanService = saveHumanService.bind(this);
