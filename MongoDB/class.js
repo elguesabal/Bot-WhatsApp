@@ -1,10 +1,9 @@
 import { connect } from "./methods/connect.js";
-import { saveAdm, removeAdm } from "./methods/adm.js";
 import { saveContact } from "./methods/contact.js";
 import { saveMessageNotSupported } from "./methods/updateMessageNotSupported.js";
 import { saveMessageNewContact } from "./methods/updateMessageNewContact.js";
 import { savePrompt } from "./methods/prompt.js";
-import { addSpreadsheets, removeSpreadsheets, newSpreadsheets } from "./methods/spreadsheets.js";
+import { newSpreadsheets } from "./methods/spreadsheets.js";
 import { saveLocation } from "./methods/updateLocation.js";
 import { saveNewPassword } from "./methods/updatePassword.js";
 import { saveVisualization } from "./methods/visualization.js";
@@ -20,7 +19,7 @@ import { saveContactsReceived, saveContactsSent } from "./methods/contacts.js";
 import { saveDocumentReceived, saveDocumentSent } from "./methods/document.js";
 import { saveButtonSent } from "./methods/button.js";
 import { saveListSent } from "./methods/list.js";
-import { updateStateRedirect, updateRedirect, saveRedirect, removeRedirect, newRedirect, saveMessageRedirect, saveHumanService, removeHumanService } from "./methods/redirect.js";
+import { updateStateRedirect, updateRedirect, newRedirect, saveMessageRedirect, saveHumanService, removeHumanService } from "./methods/redirect.js";
 import { saveStateBot, updateStateBot } from "./methods/configChat.js";
 import { updateVisualization } from "./methods/updateVisualization.js";
 import { saveHumanView } from "./methods/humanViewed.js";
@@ -47,17 +46,11 @@ export default class Mongodb {
 		this.connect = connect.bind(this);
 		this.saveContact = saveContact.bind(this);
 
-		this.saveAdm = saveAdm.bind(this);
-		this.removeAdm = removeAdm.bind(this);
 		this.saveMessageNotSupported = saveMessageNotSupported.bind(this);
 		this.saveMessageNewContact = saveMessageNewContact.bind(this);
 		this.savePrompt = savePrompt.bind(this);
-		this.addSpreadsheets = addSpreadsheets.bind(this);
-		this.removeSpreadsheets = removeSpreadsheets.bind(this);
 		this.newSpreadsheets = newSpreadsheets.bind(this);
 		this.saveLocation = saveLocation.bind(this);
-		// this.saveRedirect = saveRedirect.bind(this);
-		// this.removeRedirect = removeRedirect.bind(this);
 		this.newRedirect = newRedirect.bind(this);
 		this.saveMessageRedirect = saveMessageRedirect.bind(this);
 		this.saveHumanService = saveHumanService.bind(this);

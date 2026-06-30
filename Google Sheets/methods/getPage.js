@@ -8,11 +8,15 @@ import mongodb from "../../MongoDB/Mongodb.js";
  * @return {Array<Object>} RETORNA UM OBJETO COM O CONTEUDO DE page NO FORMATO JSON
 */
 export async function getPageJson(account, page) {
+// console.log("aaaaaaaaaaaa")
+// return ;
 	try {
 		const res = await this.googleSheets.spreadsheets.values.get({
-			spreadsheetId: account.googleSheets.spreadsheet,
-			range: page
+			spreadsheetId: "account.googleSheets.spreadsheet",
+			range: "page"
 		});
+// console.log(res)
+// return ;
 		if (!Array.isArray(res.data.values) || res.data.values.length < 2) return ([]);
 		const [headers, ...data] = res.data.values;
 		const array = [];
@@ -24,6 +28,7 @@ export async function getPageJson(account, page) {
 		return (array);
 	} catch (error) {
 		await mongodb.saveError(account.idPhone, `Error na funcao "getPageJson": ${error}`);
+console.log(error)
 		return ([]);
 	}
 }

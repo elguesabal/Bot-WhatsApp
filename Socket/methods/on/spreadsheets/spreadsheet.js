@@ -38,13 +38,16 @@ export async function getSpreadsheets(socket, data, callback) {
  * @param {Object} data DADOS ENVIADO PELO CLIENTE
  * @param {Object} callback FUNCAO DE RESPOSTA
 */
-export async function updateUsedSpreadsheets(socket, data, callback) {			// E SE VIER COM PLANILHA INEXISTENTE NO PAYLOAD??
+export async function updateUsedSpreadsheets(socket, data, callback) {
 	const { idPhone } = socket.account;
 	const { spreadsheets } = data || {};
 
 	try {
 		if (data == null || typeof data !== "object" || Array.isArray(data)) return (callback({ code: 400, error: "O payload deve ser um objeto" }));
 		if (!Array.isArray(spreadsheets) || !spreadsheets.every((item) => (typeof item === "string"))) return (callback({ code: 400, error: 'O campo "spreadsheets" deve ser um array de strings'}));
+		const pages = await googleSheets.getPages(socket.account);
+
+		for (const spreadsheet of spreadsheets) if (!pages.includes(spreadsheet)) return (callback({ code: 404, error: `Planilha "${spreadsheet}" não existe` }));
 		await mongodb.newSpreadsheets(idPhone, spreadsheets);
 		callback({ code: 204 });
 	} catch (error) {

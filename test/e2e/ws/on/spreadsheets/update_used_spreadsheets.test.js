@@ -1,4 +1,6 @@
 import Server from "../../../serverTest.js";
+import mongodb from "../../../../../MongoDB/Mongodb.js";
+import googleSheets from "../../../../../Google Sheets/GoogleSheets.js";
 
 /**
  * @author VAMPETA
@@ -31,7 +33,9 @@ describe("ON - spreadsheets:update_used_spreadsheets", () => {
 	});
 
 	test("requisição feita corretamente adicionando uma planilha", async () => {
-		const res = await server.emit("spreadsheets:update_used_spreadsheets", { spreadsheets: ["Página 1"] });
+		const account = await mongodb.Account.findOne({ phone: process.env.PHONE_TEST }).select("googleSheets -_id").lean();
+		const pages = await googleSheets.getPages(account);
+		const res = await server.emit("spreadsheets:update_used_spreadsheets", { spreadsheets: [pages[0]] });
 
 		expect(res.code).toBe(204);
 	});
@@ -141,6 +145,15 @@ describe("ON - spreadsheets:update_used_spreadsheets", () => {
 		expect(res).toEqual({
 			code: 400,
 			error: 'O campo "spreadsheets" deve ser um array de strings'
+		});
+	});
+
+	test("requisição feita adicionando uma planilha inexistente", async () => {
+		const res = await server.emit("spreadsheets:update_used_spreadsheets", { spreadsheets: ["Página inexistente"] });
+
+		expect(res).toEqual({
+			code: 404,
+			error: 'Planilha "Página inexistente" não existe'
 		});
 	});
 });

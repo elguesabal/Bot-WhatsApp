@@ -51,7 +51,12 @@
     "test/e2e/ws/on/spreadsheets:get_spreadsheets": "npm run jest test/e2e/ws/on/spreadsheets/get_spreadsheets.test.js --verbose",
     "test/e2e/ws/on/spreadsheets:update_used_spreadsheets": "npm run jest test/e2e/ws/on/spreadsheets/update_used_spreadsheets.test.js --verbose",
     "test/e2e/ws/on/settings:update_password": "npm run jest test/e2e/ws/on/settings/update_password.test.js --verbose",
-    "test/e2e/ws/on/support:get_info_support": "npm run jest test/e2e/ws/on/support/get_info_support.test.js --verbose"
+    "test/e2e/ws/on/support:get_info_support": "npm run jest test/e2e/ws/on/support/get_info_support.test.js --verbose",
+
+    "test:unit": "npm run jest -- test/unit",
+
+    "test:unit:googleSheets:getPages": "npm run jest test/unit/googleSheets/getPages.test.js",
+    "test:unit:googleSheets:getPageJson": "npm run jest test/unit/googleSheets/getPageJson.test.js"
   },
   "keywords": [],
   "author": "",
