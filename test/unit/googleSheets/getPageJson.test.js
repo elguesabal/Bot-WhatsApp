@@ -12,8 +12,7 @@ describe("Google Sheets - getPageJson", () => {
 	beforeAll(async () => {
 		await server.start();
 		if (!process.env.ID_PHONE_TEST) throw (new Error("ID_PHONE_TEST não configurado"));
-		if (!process.env.PHONE_TEST) throw (new Error("PHONE_TEST não configurado"));
-		if (!process.env.PASSWORD_TEST) throw (new Error("PASSWORD_TEST não configurado"));
+		if (!process.env.ID_SPREADSHEET_TEST) throw (new Error("ID_SPREADSHEET_TEST não configurado"));
 	});
 
 	afterAll(async () => {
@@ -21,10 +20,10 @@ describe("Google Sheets - getPageJson", () => {
 	});
 
 	test("requisição feita corretamente", async () => {
-		const res = await googleSheets.getPageJson();
+		const pages = await googleSheets.getPages(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST);
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, pages[0]);
 
-		// expect(res).toMatchObject({
-		// 	teste: 42
-		// });
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
 	});
 });

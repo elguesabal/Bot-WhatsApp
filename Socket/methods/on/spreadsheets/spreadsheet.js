@@ -12,7 +12,7 @@ export async function getSpreadsheets(socket, data, callback) {
 	const { idPhone } = socket.account;
 
 	try {
-		const pages = await googleSheets.getPages(socket.account);
+		const pages = await googleSheets.getPages(socket.account.idPhone, socket.account.googleSheets.spreadsheet);
 		const account = await mongodb.Account.findOne({ idPhone: idPhone }).select("googleSheets -_id").lean();
 
 		callback({
@@ -45,7 +45,7 @@ export async function updateUsedSpreadsheets(socket, data, callback) {
 	try {
 		if (data == null || typeof data !== "object" || Array.isArray(data)) return (callback({ code: 400, error: "O payload deve ser um objeto" }));
 		if (!Array.isArray(spreadsheets) || !spreadsheets.every((item) => (typeof item === "string"))) return (callback({ code: 400, error: 'O campo "spreadsheets" deve ser um array de strings'}));
-		const pages = await googleSheets.getPages(socket.account);
+		const pages = await googleSheets.getPages(socket.account.idPhone, socket.account.googleSheets.spreadsheet);
 
 		for (const spreadsheet of spreadsheets) if (!pages.includes(spreadsheet)) return (callback({ code: 404, error: `Planilha "${spreadsheet}" não existe` }));
 		await mongodb.newSpreadsheets(idPhone, spreadsheets);
