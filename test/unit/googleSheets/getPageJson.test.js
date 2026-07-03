@@ -102,4 +102,5 @@ describe("Google Sheets - getPageJson", () => {
 			expect(res).toEqual(expect.any(Array));
 			expect(res.every((page) => (typeof page === "object"))).toBe(true);
 		});
+
 });
