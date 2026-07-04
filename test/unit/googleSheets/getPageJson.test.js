@@ -53,54 +53,137 @@ describe("Google Sheets - getPageJson", () => {
 
 		expect(res).toBeNull();
 	});
-	
-		test("requisição passando 'idPhone' como undefined (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson(undefined, process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como null (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson(null, process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como objeto (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson({}, process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como array (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson([], process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como boolean (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson(true, process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como string vazia (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson("", process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
-	
-		test("requisição passando 'idPhone' como number (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
-			const res = await googleSheets.getPageJson(42, process.env.ID_SPREADSHEET_TEST, page);
-	
-			expect(res).toEqual(expect.any(Array));
-			expect(res.every((page) => (typeof page === "object"))).toBe(true);
-		});
 
+	test("requisição passando 'idPhone' como undefined (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson(undefined, process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como null (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson(null, process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como objeto (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson({}, process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como array (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson([], process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como boolean (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson(true, process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como string vazia (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson("", process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idPhone' como number (deve retornar uma resposta normal, já que, o 'idPhone' serve para salvar erros)", async () => {
+		const res = await googleSheets.getPageJson(42, process.env.ID_SPREADSHEET_TEST, page);
+
+		expect(res).toEqual(expect.any(Array));
+		expect(res.every((page) => (typeof page === "object"))).toBe(true);
+	});
+
+	test("requisição passando 'idSpreadsheet' como undefined", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, undefined, page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como null", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, null, page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como objeto", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, {}, page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como array", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, [], page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como boolean", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, true, page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como string vazia", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, "", page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'idSpreadsheet' como number", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, 42, page);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como undefined", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, undefined);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como null", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, null);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como objeto", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, {});
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como array", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, []);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como boolean", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, true);
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como string vazia", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, "");
+
+		expect(res).toBeNull();
+	});
+
+	test("requisição passando 'page' como number", async () => {
+		const res = await googleSheets.getPageJson(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, 42);
+
+		expect(res).toBeNull();
+	});
 });
