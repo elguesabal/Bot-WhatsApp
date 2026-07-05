@@ -11,7 +11,7 @@ import { promptProducts } from "../prompt/products.js";
 */
 export async function products(account, phone) {
 	try {
-		const spreadsheets = (account.googleSheets) ? await googleSheets.getPageJsonText(account) : undefined;
+		const spreadsheets = (account.googleSheets) ? await googleSheets.getPageJsonText(account.idPhone, account.googleSheets.spreadsheet, account.googleSheets.pages) : undefined;
 		const messages = [
 			{
 				role: "system",

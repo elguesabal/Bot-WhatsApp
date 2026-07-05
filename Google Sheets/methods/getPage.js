@@ -4,6 +4,7 @@ import mongodb from "../../MongoDB/Mongodb.js";
  * @author VAMPETA
  * @brief BUSCA UMA PAGINA DENTRO DE UMA PLANILHA E TRANFORMA EM JSON
  * @param {String} idPhone ID DO CLIENTE
+ * @param {String} idSpreadsheet ID DA PLANILHA
  * @param {String} page NOME DA PAGINA
  * @return {Array<Object>} RETORNA UM OBJETO COM O CONTEUDO DE page NO FORMATO JSON
 */
@@ -32,38 +33,25 @@ export async function getPageJson(idPhone, idSpreadsheet, page) {
 /**
  * @author VAMPETA
  * @brief BUSCA UMA PAGINA DENTRO DE UMA PLANILHA E TRANFORMA EM JSON E DEPOIS CONVERTE EM TEXTO
- * @param {Object} account DADOS DO NUMERO QUE RECEBEU ATUALIZACOES
+ * @param {String} idPhone ID DO CLIENTE
+ * @param {String} idSpreadsheet ID DA PLANILHA
+ * @param {Array<String>} pages NOMES DAS PLANILHAS QUE DEVEM SER CONSULTADAS
  * @return {String} RETORNA UMA STRING COM AS INFORMACOES DAS PAGINAS
 */
-// export async function getPageJsonText(account) {
-// 	try {
-// 		let text = "";
-// 		const availablePages = await this.getPages(account.idPhone, account.googleSheets.spreadsheet);
-
-// 		for (const page of account.googleSheets.pages) {
-// 			if (!availablePages.includes(page)) continue;
-// 			const table = await this.getPageJson(account.idPhone, account.googleSheets.spreadsheet, page);
-// 			text += (table.length) ? `\n${JSON.stringify(table)}` : "";
-// 		}
-// 		return (text);
-// 	} catch (error) {
-// 		await mongodb.saveError(account.idPhone, `Error na funcao "getPageJsonText": ${error}`);
-// 		return ("");
-// 	}
-// }
-export async function getPageJsonText(account) {
+export async function getPageJsonText(idPhone, spreadsheet, pages) {
 	try {
 		let text = "";
-		const availablePages = await this.getPages(account.idPhone, account.googleSheets.spreadsheet);
+		const availablePages = await this.getPages(idPhone, spreadsheet);
 
-		for (const page of account.googleSheets.pages) {
+		if (availablePages === null) return (null);
+		for (const page of pages) {
 			if (!availablePages.includes(page)) continue;
-			const table = await this.getPageJson(account.idPhone, account.googleSheets.spreadsheet, page);
+			const table = await this.getPageJson(idPhone, spreadsheet, page);
 			text += (table.length) ? `\n${JSON.stringify(table)}` : "";
 		}
 		return (text);
 	} catch (error) {
-		await mongodb.saveError(account.idPhone, `Error na funcao "getPageJsonText": ${error}`);
+		await mongodb.saveError(idPhone, `Error na funcao "getPageJsonText": ${error}`);
 		return (null);
 	}
 }

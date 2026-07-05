@@ -56,7 +56,8 @@
     "test:unit": "npm run jest -- test/unit",
 
     "test:unit:googleSheets:getPages": "npm run jest test/unit/googleSheets/getPages.test.js",
-    "test:unit:googleSheets:getPageJson": "npm run jest test/unit/googleSheets/getPageJson.test.js"
+    "test:unit:googleSheets:getPageJson": "npm run jest test/unit/googleSheets/getPageJson.test.js",
+    "test:unit:googleSheets:getPageJsonText": "npm run jest test/unit/googleSheets/getPageJsonText.test.js"
   },
   "keywords": [],
   "author": "",
