@@ -40,6 +40,7 @@ export async function getPageJson(idPhone, idSpreadsheet, page) {
 */
 export async function getPageJsonText(idPhone, spreadsheet, pages) {
 	try {
+		if (!Array.isArray(pages)) return (null);
 		let text = "";
 		const availablePages = await this.getPages(idPhone, spreadsheet);
 
@@ -59,14 +60,15 @@ export async function getPageJsonText(idPhone, spreadsheet, pages) {
 /**
  * @author VAMPETA
  * @brief BUSCA UMA PAGINA DENTRO DE UMA PLANILHA
- * @param {String} spreadsheet ID DA PLANILHA
+ * @param {String} idPhone ID DO CLIENTE
+ * @param {String} idSpreadsheet ID DA PLANILHA
  * @param {String} page NOME DA PAGINA
  * @return {String} RETORNA UM OBJETO COM O CONTEUDO DE page
 */
-export async function getPageTable(account, page) {
+export async function getPageTable(idPhone, spreadsheet, page) {
 	try {
 		const res = await this.googleSheets.spreadsheets.values.get({
-			spreadsheetId: account.googleSheets.spreadsheet,
+			spreadsheetId: spreadsheet,
 			range: page
 		});
 		if (!Array.isArray(res.data.values) || res.data.values.length < 2) return ("");
@@ -78,7 +80,7 @@ export async function getPageTable(account, page) {
 		}
 		return (text);
 	} catch (error) {
-		await mongodb.saveError(account.idPhone, `Error na funcao "getPageTable": ${error}`);
-		return ("");
+		await mongodb.saveError(idPhone, `Error na funcao "getPageTable": ${error}`);
+		return (null);
 	}
 }

@@ -12,8 +12,8 @@ export default class GoogleSheets {
 	constructor() {
 		this.connect = connect.bind(this);
 		this.getPages = getPages.bind(this);
-this.getPageJson = getPageJson.bind(this);
-this.getPageJsonText = getPageJsonText.bind(this);
-this.getPageTable = getPageTable.bind(this);
+		this.getPageJson = getPageJson.bind(this);
+		this.getPageJsonText = getPageJsonText.bind(this);
+		this.getPageTable = getPageTable.bind(this);
 	}
 };

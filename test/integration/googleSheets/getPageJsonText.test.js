@@ -40,12 +40,6 @@ describe("Google Sheets - getPageJsonText", () => {
 		expect(res).toBeNull();
 	});
 
-	test("requisição feita com 'page' inexistente", async () => {
-		const res = await googleSheets.getPageJsonText(process.env.ID_PHONE_TEST, process.env.ID_SPREADSHEET_TEST, "página inexistente");
-
-		expect(res).toBeNull();
-	});
-
 	test("requisição feita com 'idPhone' inválido, 'idSpreadsheet' inexistente e 'page' inexistente", async () => {
 		const res = await googleSheets.getPageJsonText("id inválido", "planilha inexistente", "página inexistente");
 

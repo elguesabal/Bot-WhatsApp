@@ -53,11 +53,13 @@
     "test/e2e/ws/on/settings:update_password": "npm run jest test/e2e/ws/on/settings/update_password.test.js --verbose",
     "test/e2e/ws/on/support:get_info_support": "npm run jest test/e2e/ws/on/support/get_info_support.test.js --verbose",
 
-    "test:unit": "npm run jest -- test/unit",
+    "test:integration": "npm run jest -- test/integration",
+    "test:integration:googleSheets": "npm run jest -- test/integration/googleSheets",
 
-    "test:unit:googleSheets:getPages": "npm run jest test/unit/googleSheets/getPages.test.js",
-    "test:unit:googleSheets:getPageJson": "npm run jest test/unit/googleSheets/getPageJson.test.js",
-    "test:unit:googleSheets:getPageJsonText": "npm run jest test/unit/googleSheets/getPageJsonText.test.js"
+    "test:integration:googleSheets:getPages": "npm run jest test/integration/googleSheets/getPages.test.js",
+    "test:integration:googleSheets:getPageJson": "npm run jest test/integration/googleSheets/getPageJson.test.js",
+    "test:integration:googleSheets:getPageJsonText": "npm run jest test/integration/googleSheets/getPageJsonText.test.js",
+    "test:integration:googleSheets:getPageTable": "npm run jest test/integration/googleSheets/getPageTable.test.js"
   },
   "keywords": [],
   "author": "",
